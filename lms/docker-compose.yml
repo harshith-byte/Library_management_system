@@ -1,8 +1,15 @@
-version: '3.3'
-
+version: "3.8"
 services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'django-app-db'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+    volumes:
+      - ./data/mysql/db:/var/lib/mysql
   web:
     build: .
+    restart: always
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -10,28 +17,3 @@ services:
       - "8000:8000"
     depends_on:
       - db
-
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: 'Library'
-
-      MYSQL_USER: 'root'
-
-      MYSQL_PASSWORD: 'password'
-
-      MYSQL_ROOT_PASSWORD: 'root'
-    ports:
-
-      - '3306:3306'
-    expose:
-
-      - '3306'
-
-    volumes:
-      - my-db:/var/lib/mysql
-
-volumes:
-  my-db:
-
