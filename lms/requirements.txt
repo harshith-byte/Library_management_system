@@ -3,3 +3,7 @@ Django>=3.0,<4.0
 djangorestframework
 
 mysqlclient>=2.0
+
+requests
+
+django-mysql==2.2.0
