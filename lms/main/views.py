@@ -1,16 +1,23 @@
-from email import message
-from django.http import HttpResponse, HttpResponseRedirect
+
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import requests
 from .models import *
-from .serializers import AdministratorSerializer, BookSerializer
+from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
 from django.core.exceptions import ObjectDoesNotExist
-
+from .backend import *
+from django.contrib import messages
+from django.contrib.auth import authenticate,logout,login
+from .forms import RegistrationForm
+from .decorators import unauthenticated_user
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+
 
 @api_view(['GET'])
 def apioverview(request):
@@ -19,69 +26,74 @@ def apioverview(request):
         'create-book':'/api/savebook/', #create
         'updatebook':'api/updatebook/<str:pk>/', #update
     }
-
-
     return Response(api_urls)
 
 
+@unauthenticated_user
+def registration_view(request):      # signup function
 
-def home(request):
+    form = RegistrationForm()
+    context = {}
+    if request.POST:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user=form.cleaned_data.get('username')
+            messages.success(request,'Account was created '+ user)
+            return redirect('login')
+        else:
+            messages.error(request, "Please Correct Below Errors")
+            context = {'form':form}
+    else:
+        
+        context = {'form':form}
+    return render(request, "main/signup.html", context)
+
+
+
+def logout_view(request):       #logout function
+    logout(request)
+    return redirect('home')
+
+
+
+@unauthenticated_user
+def  login_view(request):       #login function
+
+    if request.method=='POST':
+        email   = request.POST.get('email')
+        password = request.POST.get('password')
+        user =  authenticate(request,email=email, password=password)
+        if user:
+            login(request, user)
+            messages.success(request, "Logged In")
+            return redirect('admin_view')
+        else:
+            messages.error(request,"Email or password is incorrect")
+    
+        
+    return render(request, "main/login.html")
+
+def home(request):          #students page
     book=Books.objects.all()
     return render(request,'main/home.html',context={'book':book})
 
-def api_login(request):
-    return render(request, 'main/login.html')
-
-def Administrator_login(request):
-    return render(request, 'main/login.html')
-
-
-@api_view(['POST'])
-def savesignup(request):
-
-    if request.method=="POST":
-        serialize=AdministratorSerializer(data=request.data)
-        if serialize.is_valid():
-            serialize.save()
-            return Response(serialize.data,status.HTTP_201_CREATED)
-        return Response(serialize.data, status.HTTP_400_BAD_REQUEST)
-
-def Administrator_signup(request):
-
-    if request.method=="POST":
-        Admin_Firstname=request.POST.get('firstname')
-        Admin_Lastname=request.POST.get('lastname')
-        Admin_email=request.POST.get('Email')
-        Admin_password=request.POST.get('Password')
-        try:
-            Administrator.objects.get(Admin_email=Admin_email)
-            return render(request, 'main/signup.html',context={'message':"This email has already taken. Try other email"})
-        except ObjectDoesNotExist:
-            data={'Admin_Firstname':Admin_Firstname,'Admin_Lastname':Admin_Lastname,'Admin_email':Admin_email,'Admin_password':Admin_password}
-            headers={'Content-Type': 'application/json'}
-
-            r=requests.post('http://0.0.0.0:8000/api/signup/',json=data,headers=headers)
-
-            return render(request, 'main/signup.html')
-    else:
-        return render(request, 'main/signup.html')
-
-
-
-def admin_view(request):
+@login_required(login_url='login') 
+def admin_view(request):    #admin page
     book=Books.objects.all()
     return render(request,'main/adminview.html',context={'book':book})
 
 
+
 @api_view(['GET'])
-def admin_view_api(request):
+def admin_view_api(request):    #admin page api
     book=Books.objects.all()
     serializer=BookSerializer(book, many=True)
     return Response(serializer.data)
 
 
 @api_view(['POST'])
-def savebook(request):
+def savebook(request):  #creating book api
 
     if request.method=="POST":
         serialize=BookSerializer(data=request.data)
@@ -90,8 +102,8 @@ def savebook(request):
             return Response(serialize.data,status.HTTP_201_CREATED)
         return Response(serialize.data, status.HTTP_400_BAD_REQUEST)
 
-
-def Create_Book(request):
+@login_required(login_url='login')
+def Create_Book(request):   #view for creating books
 
     if request.method=="POST":
         Book_name=request.POST.get('bookname')
@@ -113,7 +125,7 @@ def Create_Book(request):
 
 
 @api_view(['POST'])
-def updatebook(request,pk):
+def updatebook(request,pk): #api to update book
     book=Books.objects.filter(id=pk)
     print("hello")
     if request.method=="POST":
@@ -123,8 +135,8 @@ def updatebook(request,pk):
             
         return Response(serialize.data,status.HTTP_201_CREATED)
 
-
-def update_book(request,pk):
+@login_required(login_url='login')
+def update_book(request,pk):    #view to update book
     book=Books.objects.filter(id=pk)
     if request.method=="POST":
         Book_name=request.POST.get('bookname')
@@ -144,8 +156,8 @@ def update_book(request,pk):
     else:
         return render(request, 'main/updatebook.html',context={'book':book})
 
-
-def deletebook(request,pk):
+@login_required(login_url='login')  
+def deletebook(request,pk):         #view to delete books
     book=Books.objects.get(id=pk)
     book.delete()
     return HttpResponseRedirect(reverse('admin_view'))
