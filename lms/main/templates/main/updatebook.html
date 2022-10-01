@@ -1,0 +1,42 @@
+{% include 'main/nav.html' %}
+
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+      <h2>Update Book</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="bookname">Book Name</label>
+            <input type="text" class="form-control" name="bookname" placeholder={{ book.Book_name }}>
+          </div>
+        </div>
+        <!--  col-md-6   -->
+  
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="bookauthor">Author</label>
+            <input type="text" class="form-control" name="bookauthor" placeholder={{ book.Book_author }}>
+          </div>
+        </div>
+        <!--  col-md-6   -->
+      </div>
+  
+  
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="bookprice">Book Price</label>
+            <input type="text" class="form-control" name="bookprize" placeholder={{ book.Book_prize }}>
+          </div>
+  
+  
+        </div>
+        
+      </div>
+    <br>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <p style="color: black;">{{message}}</p>
+    </form>
+  </div>
