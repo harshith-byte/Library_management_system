@@ -37,7 +37,7 @@
 
 - Pull git repo to local machine 
 ```
-  - git clone git@github.com:harshith-byte/E-Commerce-Django-rest-framework.git
+  - git clone git@github.com:harshith-byte/Library_management_system.git
 ```
 
 - open terminal and Change directory to main
