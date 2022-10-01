@@ -10,6 +10,32 @@
     <script src='main.js'></script>
 </head>
 <body>
+
+
+<div class="container table-responsive py-5"> 
+    <table class="table table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Book Name</th>
+          <th scope="col">Author</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for books in book %}
+        <tr>
+          <th scope="row">{{books.id}}</th>
+          <td>{{books.Book_name}}</td>
+          <td>{{books.Book_author}}</td>
+          <td>{{books.Book_prize}}</td>
+        </tr>
+        {% endfor %}
+        
+      </tbody>
+    </table>
+
+    </div>
     
 </body>
 </html>

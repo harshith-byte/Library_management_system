@@ -1,0 +1,42 @@
+{% include 'main/nav.html' %}
+
+<div class="container">
+    <form method="POST" action="">
+        {% csrf_token %}
+      <h2>Create Book</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="first">Book Name</label>
+            <input type="text" class="form-control" name="bookname" placeholder="" id="first">
+          </div>
+        </div>
+        <!--  col-md-6   -->
+  
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="last">Author</label>
+            <input type="text" class="form-control" name="bookauthor" placeholder="" id="last">
+          </div>
+        </div>
+        <!--  col-md-6   -->
+      </div>
+  
+  
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="company">Book Price</label>
+            <input type="text" class="form-control" name="bookprice" placeholder="" id="company">
+          </div>
+  
+  
+        </div>
+        
+      </div>
+    <br>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <p style="color: black;">{{message}}</p>
+    </form>
+  </div>
