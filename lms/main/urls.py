@@ -3,22 +3,21 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.home,name="home"),  
-    path('api/',views.apioverview,name="api"),
+    path('',views.home,name="home"),  #student page
+    path('api/',views.apioverview,name="api"), # listof all api's present in the project
 
-    path('api/signup/',views.savesignup,name="admin_signup"),
-    path('signup/',views.Administrator_signup,name="signup"),
-    path('api/login/',views.api_login,name="admin_login"),    
-    path('api/login/',views.Administrator_login,name="login"),    
+    path('signup/',views.registration_view, name="signup"),# Signup, login and logout
+    path('logout/',views.logout_view, name="logout" ),
+    path('login/',views.login_view, name="login" ),  
 
-    path('api/savebook/',views.savebook,name="savebook_api"),      
+    path('api/savebook/',views.savebook,name="savebook_api"),   # api and view for saving new book
     path('adminview/savebook/',views.Create_Book,name="createbook"),   
 
-    path('adminview/',views.admin_view,name="admin_view"),
+    path('adminview/',views.admin_view,name="admin_view"),      # api and view for visiting admin page    
     path('adminviewapi/',views.admin_view_api,name="admin_view_api"),
 
-    path('api/updatebook/<str:pk>/',views.updatebook,name="updatebook_api"),
+    path('api/updatebook/<str:pk>/',views.updatebook,name="updatebook_api"), #api and view for updating a particular book
     path('adminview/updatebook/<str:pk>/',views.update_book,name="updatebook"),
 
-    path('adminview/deletebook/<str:pk>/',views.deletebook,name="deletebook"),
+    path('adminview/deletebook/<str:pk>/',views.deletebook,name="deletebook"), #view for deleting particular book
 ]

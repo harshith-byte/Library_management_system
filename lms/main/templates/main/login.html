@@ -1,56 +1,46 @@
 {% include 'main/nav.html' %}
 
 <style>
-    body {
-        background: #f7f7f7;
-      }
-      
-      .form-box {
-        max-width: 500px;
-        margin: auto;
-        padding: 50px;
-        background: #ffffff;
-        border: 10px solid #f2f2f2;
-      }
-      
-      h1, p {
-        text-align: center;
-      }
-      
-      input, textarea {
-        width: 100%;
-      }
+  body {
+      background: #f7f7f7;
+    }
+    
+    .form-box {
+      max-width: 500px;
+      margin: auto;
+      padding: 50px;
+      background: #ffffff;
+      border: 10px solid #f2f2f2;
+    }
+    
+    h1, p {
+      text-align: center;
+    }
+    
+    input, textarea {
+      width: 100%;
+    }
 </style>
-<br><br>
-<ul class="nav justify-content-center">
-    <li class="nav-item">
-      <h1></h1>
-      
-    </li>
-</ul>
- 
 <div class="form-box">
-    <h1>Admin Login</h1>
-    <hr>
-    <form action="" method="post">
-        {% csrf_token %}
-      <div class="form-group">
-        <label for="name">First Name</label>
-        <input class="form-control" id="name" type="text" name="firstname">
-      </div>
-      <div class="form-group">
-        <label for="name">Last Name</label>
-        <input class="form-control" id="name" type="text" name="lastname">
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input class="form-control" id="email" type="email" name="Email">
-      </div>
-      <div class="form-group">
-        <label for="Password">Password</label>
-        <input type="password" class="form-control" id="Password" name="Password"></input>
-      </div>
-      <input class="btn btn-primary" type="submit" value="Submit" />
-      </div>
-    </form>
-  </div>
+  <h1>Admin Login</h1>
+  <form action="" method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input class="form-control" id="email" type="email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password"></input>
+    </div>
+    <br>
+    <input class="btn btn-primary" type="submit" value="Submit" />
+    </div>
+    {% for message in messages %}
+    <p>{{message}}</p>
+  {% endfor %}
+  <p class="p-2 m-1">Don't have a Account? <a href="{% url 'signup' %}">Sign up Here</a></p>
+  </form>
+</div>
+

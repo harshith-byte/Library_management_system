@@ -8,7 +8,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="bookname">Book Name</label>
-            <input type="text" class="form-control" name="bookname" placeholder={{ book.Book_name }}>
+            <input type="text" class="form-control" name="bookname" >
           </div>
         </div>
         <!--  col-md-6   -->
@@ -16,7 +16,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="bookauthor">Author</label>
-            <input type="text" class="form-control" name="bookauthor" placeholder={{ book.Book_author }}>
+            <input type="text" class="form-control" name="bookauthor" >
           </div>
         </div>
         <!--  col-md-6   -->
@@ -27,7 +27,7 @@
         <div class="col-md-6">
           <div class="form-group">
             <label for="bookprice">Book Price</label>
-            <input type="text" class="form-control" name="bookprize" placeholder={{ book.Book_prize }}>
+            <input type="text" class="form-control" name="bookprize">
           </div>
   
   
@@ -40,3 +40,9 @@
       <p style="color: black;">{{message}}</p>
     </form>
   </div>
+  <script>
+    var form_field=document.getElementsByTagName('input')
+    form_field[1].placeholder=book.bookname;
+    form_field[2].placeholder=book.bookauthor;
+    form_field[3].placeholder=book.bookprize;
+  </script>
