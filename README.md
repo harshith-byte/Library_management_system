@@ -11,9 +11,7 @@
   - User (Default django model)
   
 - Frontend
-  - HTML
-  - CSS
-  - JS 
+  - Bootstrap 5
 
 - API'S 
   ```
