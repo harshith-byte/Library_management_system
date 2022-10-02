@@ -18,7 +18,7 @@
   - 0.0.0.0:8000/api/                                   API Overview
   - 0.0.0.0:8000/api/savebook/                          API To CREATE new Book Object
   - 0.0.0.0:8000/adminviewapi/                          API To READ all books and dump in ADMIN page
-  - 0.0.0.0:8000/api/updatebook/<str:pk>/<str:pk>/      API To UPDATE specific Book object from ADMIN page
+  - 0.0.0.0:8000/api/updatebook/<str:pk>/               API To UPDATE specific Book object from ADMIN page
   ```
 - Backend
   - MySQL
